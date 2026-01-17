@@ -22,13 +22,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build APK and show location
+      - name: Build APK and list output
         run: |
           ./gradlew assembleDebug
-          echo "Searching for APK files..."
-          find . -name "*.apk"
+          echo "=== APK Files ==="
+          find . -type f -name "*.apk" -print
 
-      - name: Upload APK
+      - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
           name: AzkariApp-APK
