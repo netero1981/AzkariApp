@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_settings">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="الإعدادات"
+        android:textSize="22sp"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <Switch
+        android:id="@+id/swVibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تفعيل الهزاز"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"/>
+
+    <Button
+        android:id="@+id/btnBg1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="خلفية رمضانية 1"
+        android:textSize="18sp"
+        android:layout_below="@id/swVibrate"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/btn_style"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnBg2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="خلفية رمضانية 2"
+        android:textSize="18sp"
+        android:layout_below="@id/btnBg1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/btn_style"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnQibla"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="اتجاه القبلة"
+        android:textSize="18sp"
+        android:layout_below="@id/btnBg2"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/btn_style"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_below="@id/btnQibla"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+
+</RelativeLayout>
