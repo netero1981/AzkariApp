@@ -1,26 +1,46 @@
-package com.azkari
+package com.azkari;
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-class AzkarAdapter(private val azkarList: List<String>) :
-    RecyclerView.Adapter<AzkarAdapter.AzkarViewHolder>() {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AzkarViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_azkar, parent, false)
-        return AzkarViewHolder(view)
+import java.util.ArrayList;
+
+public class AzkarAdapter extends RecyclerView.Adapter<AzkarAdapter.ViewHolder> {
+
+    ArrayList<String> list;
+
+    public AzkarAdapter(ArrayList<String> list) {
+        this.list = list;
     }
 
-    override fun onBindViewHolder(holder: AzkarViewHolder, position: Int) {
-        holder.text.text = azkarList[position]
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_azkar, parent, false);
+        return new ViewHolder(view);
     }
 
-    override fun getItemCount(): Int = azkarList.size
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.tvAzkar.setText(list.get(position));
+    }
 
-    class AzkarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val text: TextView = itemView.findViewById(R.id.azkarText)
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvAzkar;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvAzkar = itemView.findViewById(R.id.tvAzkar);
+        }
     }
 }
