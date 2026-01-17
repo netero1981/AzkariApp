@@ -1,53 +1,89 @@
 
 package com.azkari;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
-
-// Model class
-class AzkarItem {
-    String title;
-    String text;
-    boolean isHeader;
-
-    AzkarItem(String title, String text, boolean isHeader) {
-        this.title = title;
-        this.text = text;
-        this.isHeader = isHeader;
-    }
-}
 
 public class AzkarActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<AzkarItem> azkarList;
 
+    TextView tvCount;
+    Button btnAdd, btnReset;
+    int count = 0;
+    SharedPreferences prefs;
+    boolean vibrateOn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_azkar);
 
+        // RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         azkarList = new ArrayList<>();
-        loadAzkar(); // هنا نضيف الأذكار
+        loadAzkar(); // تحميل الأذكار
 
         AzkarAdapter adapter = new AzkarAdapter(azkarList);
         recyclerView.setAdapter(adapter);
+
+        // Tasbeeh
+        tvCount = findViewById(R.id.tvCount);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnReset = findViewById(R.id.btnReset);
+
+        prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        vibrateOn = prefs.getBoolean("vibrate", true);
+
+        count = prefs.getInt("count", 0);
+        tvCount.setText(String.valueOf(count));
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count++;
+                tvCount.setText(String.valueOf(count));
+                prefs.edit().putInt("count", count).apply();
+
+                if (vibrateOn) {
+                    Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    if (v != null) v.vibrate(30);
+                }
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count = 0;
+                tvCount.setText(String.valueOf(count));
+                prefs.edit().putInt("count", count).apply();
+            }
+        });
     }
 
     private void loadAzkar() {
+
         // -----------------------------
-        // 30 أذكار الصباح
+        // أذكار الصباح (30)
         // -----------------------------
         azkarList.add(new AzkarItem("أذكار الصباح", "", true));
 
         azkarList.add(new AzkarItem("1",
-                "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير...",
+                "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
                 false));
 
         azkarList.add(new AzkarItem("2",
@@ -167,12 +203,12 @@ public class AzkarActivity extends AppCompatActivity {
                 false));
 
         // -----------------------------
-        // 30 أذكار المساء
+        // أذكار المساء (30)
         // -----------------------------
         azkarList.add(new AzkarItem("أذكار المساء", "", true));
 
         azkarList.add(new AzkarItem("1",
-                "أمسينا وأمس الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير...",
+                "أمسينا وأمس الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
                 false));
 
         azkarList.add(new AzkarItem("2",
