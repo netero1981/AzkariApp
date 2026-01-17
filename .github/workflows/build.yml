@@ -1,0 +1,47 @@
+name: Build APK (No gradlew execution)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Download gradle-wrapper.jar
+        run: |
+          mkdir -p gradle/wrapper
+          wget -q https://services.gradle.org/distributions/gradle-8.4.1-bin.zip -O gradle.zip
+          unzip -q gradle.zip gradle-8.4.1/wrapper/gradle-wrapper.jar
+          mv gradle-8.4.1/wrapper/gradle-wrapper.jar gradle/wrapper/gradle-wrapper.jar
+
+      - name: Download gradle-wrapper.properties
+        run: |
+          mkdir -p gradle/wrapper
+          cat > gradle/wrapper/gradle-wrapper.properties <<'EOF'
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.4.1-bin.zip
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+EOF
+
+      - name: Run build using Gradle wrapper jar
+        run: |
+          java -jar gradle/wrapper/gradle-wrapper.jar assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app/build/outputs/apk/release/app-release.apk
