@@ -3,15 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/item_bg">
+    android:padding="12dp"
+    android:background="@drawable/azkar_item_bg">
 
     <TextView
-        android:id="@+id/tvAzkar"
+        android:id="@+id/azkarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
+        android:text="عنوان الذكر"
         android:textSize="18sp"
-        android:fontFamily="sans-serif"/>
+        android:textStyle="bold"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/azkarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="نص الذكر"
+        android:textSize="16sp"
+        android:layout_marginTop="6dp"
+        android:textColor="#000"/>
 
 </LinearLayout>
