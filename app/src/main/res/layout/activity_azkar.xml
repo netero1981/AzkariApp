@@ -1,20 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark">
 
-    <TextView
-        android:text="أذكار الصباح"
-        android:textSize="22sp"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center"
-        android:padding="10dp"/>
+package com.azkari;
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/azkarRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public class AzkarActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    AzkarAdapter adapter;
+    ArrayList<String> azkarList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_azkar);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        azkarList = new ArrayList<>();
+        loadAzkar();
+
+        adapter = new AzkarAdapter(azkarList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void loadAzkar() {
+        // مثال: أذكار قصيرة (سأضع لك 60 ذكر لاحقًا)
+        azkarList.add("أَصْـبَـحْنا وَأَصْـبَـحَ المُلْـكُ لِلّـهِ ...");
+        azkarList.add("اللّهُـمَّ أَنْتَ رَبّـي لا إلهَ إلا أَنتَ ...");
+        // ...
+    }
+}
