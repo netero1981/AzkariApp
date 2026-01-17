@@ -1,6 +1,6 @@
-
 package com.azkari;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -20,7 +20,7 @@ public class AzkarActivity extends AppCompatActivity {
     ArrayList<AzkarItem> azkarList;
 
     TextView tvCount;
-    Button btnAdd, btnReset;
+    Button btnAdd, btnReset, btnSettings;
     int count = 0;
     SharedPreferences prefs;
     boolean vibrateOn;
@@ -35,7 +35,7 @@ public class AzkarActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         azkarList = new ArrayList<>();
-        loadAzkar(); // تحميل الأذكار
+        loadAzkar();
 
         AzkarAdapter adapter = new AzkarAdapter(azkarList);
         recyclerView.setAdapter(adapter);
@@ -44,12 +44,24 @@ public class AzkarActivity extends AppCompatActivity {
         tvCount = findViewById(R.id.tvCount);
         btnAdd = findViewById(R.id.btnAdd);
         btnReset = findViewById(R.id.btnReset);
+        btnSettings = findViewById(R.id.btnSettings);
 
         prefs = getSharedPreferences("settings", MODE_PRIVATE);
         vibrateOn = prefs.getBoolean("vibrate", true);
 
+        // حفظ العداد
         count = prefs.getInt("count", 0);
         tvCount.setText(String.valueOf(count));
+
+        // تغيير الخلفية حسب الإعدادات
+        int bg = prefs.getInt("background", 1);
+        if (bg == 1) {
+            findViewById(R.id.rootLayout).setBackgroundResource(R.drawable.bg1);
+        } else if (bg == 2) {
+            findViewById(R.id.rootLayout).setBackgroundResource(R.drawable.bg2);
+        } else if (bg == 3) {
+            findViewById(R.id.rootLayout).setBackgroundResource(R.drawable.bg3);
+        }
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,258 +85,78 @@ public class AzkarActivity extends AppCompatActivity {
                 prefs.edit().putInt("count", count).apply();
             }
         });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AzkarActivity.this, SettingsActivity.class));
+            }
+        });
     }
 
     private void loadAzkar() {
+        // 30 ذكر صباحي
+        azkarList.add(new AzkarItem("أذكار الصباح 1", "اللّهُ لا إِلَهَ إِلاّ هُوَ الْحَيُّ الْقَيُّومُ ... (3 مرات)"));
+        azkarList.add(new AzkarItem("أذكار الصباح 2", "أَصْبَحْنا وَأَصْبَحَ المُلكُ لِلَّهِ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 3", "اللّهُمَّ بِكَ أَصْبَحْنا ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 4", "أَصْبَحَتْ أُمُورِي كُلُّهَا ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 5", "سُبْحانَ اللهِ وَبِحَمْدِهِ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 6", "اللَّهُمَّ أَنْتَ رَبِّي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 7", "اللَّهُمَّ إِنِّي أَسْأَلُكَ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 8", "اللَّهُمَّ إنِّي أَسْأَلُكَ العَفْوَ وَالعافِيَةَ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 9", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 10", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 11", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 12", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الهُدَى ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 13", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الرِّضَا ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 14", "اللَّهُمَّ إِنِّي أَسْأَلُكَ نَعِيمَ الدَّارِ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 15", "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 16", "اللَّهُمَّ اجْعَلْنِي مِنَ الَّذِينَ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 17", "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 18", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ فِتْنَةِ الْمَحْيَا ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 19", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ القَبْر ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 20", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ سَمْعِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 21", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ بَصَرِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 22", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ لِسَانِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 23", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ قَلْبِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 24", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ عَمَلِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 25", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا أَعْلَمُ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 26", "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنْ تُبْعِدَ عَنِّي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 27", "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنْ تُسَلِّمَ لِي ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 28", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدِّينِ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 29", "اللَّهُمَّ إِنِّي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ ..."));
+        azkarList.add(new AzkarItem("أذكار الصباح 30", "اللَّهُمَّ أَصْبَحْتُ أُشْهِدُكَ ..."));
 
-        // -----------------------------
-        // أذكار الصباح (30)
-        // -----------------------------
-        azkarList.add(new AzkarItem("أذكار الصباح", "", true));
-
-        azkarList.add(new AzkarItem("1",
-                "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
-                false));
-
-        azkarList.add(new AzkarItem("2",
-                "اللهم بك أصبحنا وبك أمسينا، وبك نحيا وبك نموت وإليك المصير.",
-                false));
-
-        azkarList.add(new AzkarItem("3",
-                "رضيت بالله رباً وبالإسلام ديناً وبمحمد ﷺ نبياً.",
-                false));
-
-        azkarList.add(new AzkarItem("4",
-                "أستغفر الله الذي لا إله إلا هو الحي القيوم وأتوب إليه.",
-                false));
-
-        azkarList.add(new AzkarItem("5",
-                "اللهم إني أصبحت أشهدك وأشهد حملة عرشك وملائكتك وجميع خلقك أنك أنت الله لا إله إلا أنت وحدك لا شريك لك وأن محمدًا عبدك ورسولك.",
-                false));
-
-        azkarList.add(new AzkarItem("6",
-                "اللهم إني أسألك علماً نافعاً، ورزقاً طيباً، وعملاً متقبلاً.",
-                false));
-
-        azkarList.add(new AzkarItem("7",
-                "اللهم إني أعوذ بك من الكسل والهرم، ومن عذاب القبر، ومن فتنة المحيا والممات، ومن شر فتنة المسيح الدجال.",
-                false));
-
-        azkarList.add(new AzkarItem("8",
-                "اللهم إني أعوذ بك من شر ما عملت ومن شر ما لم أعمل.",
-                false));
-
-        azkarList.add(new AzkarItem("9",
-                "بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم.",
-                false));
-
-        azkarList.add(new AzkarItem("10",
-                "اللهم إني أعوذ بك من الجبن والبخل، وأعوذ بك من أن أُردّ إلى أرذل العمر، وأعوذ بك من فتنة الدنيا وعذاب القبر.",
-                false));
-
-        azkarList.add(new AzkarItem("11",
-                "اللهم إني أعوذ بك من عذاب جهنم ومن عذاب القبر ومن فتنة المحيا والممات ومن شر فتنة المسيح الدجال.",
-                false));
-
-        azkarList.add(new AzkarItem("12",
-                "أعوذ بكلمات الله التامات من شر ما خلق.",
-                false));
-
-        azkarList.add(new AzkarItem("13",
-                "اللهم إني أصبحت في نعمة منك، ورضا من عندك، وعافية منك، وأسألك من فضلك العظيم.",
-                false));
-
-        azkarList.add(new AzkarItem("14",
-                "اللهم إني أصبحت أشكو إليك ضعف قوتي، وقلة حيلتي، وهواني على الناس.",
-                false));
-
-        azkarList.add(new AzkarItem("15",
-                "اللهم إني أعوذ بك من شر ما أجد وأحاذر، ومن شر كل دابة أنت آخذ بناصيتها.",
-                false));
-
-        azkarList.add(new AzkarItem("16",
-                "اللهم إني أسألك خير هذا اليوم، فتحه ونصره ونوره وبركته وهدايته، وأعوذ بك من شر ما فيه وشر ما بعده.",
-                false));
-
-        azkarList.add(new AzkarItem("17",
-                "اللهم إني أسألك الهدى والتقى والعفاف والغنى.",
-                false));
-
-        azkarList.add(new AzkarItem("18",
-                "اللهم إني أسألك حبك وحب من يحبك وحب عمل يقربني إلى حبك.",
-                false));
-
-        azkarList.add(new AzkarItem("19",
-                "اللهم اجعلني من التوابين واجعلني من المتطهرين.",
-                false));
-
-        azkarList.add(new AzkarItem("20",
-                "اللهم إني أعوذ بك من شر نفسي ومن شر كل دابة أنت آخذ بناصيتها.",
-                false));
-
-        azkarList.add(new AzkarItem("21",
-                "سبحان الله وبحمده عدد خلقه ورضا نفسه وزنة عرشه ومداد كلماته.",
-                false));
-
-        azkarList.add(new AzkarItem("22",
-                "اللهم صل وسلم على نبينا محمد وعلى آله وصحبه وسلم.",
-                false));
-
-        azkarList.add(new AzkarItem("23",
-                "أعوذ بكلمات الله التامة من غضبه وعقابه ومن شر عباده ومن همزات الشياطين وأن يحضرون.",
-                false));
-
-        azkarList.add(new AzkarItem("24",
-                "اللهم إني أسألك عيشة طيبة، وميتة سوية، ومرداً غير مخزٍ ولا فاضح.",
-                false));
-
-        azkarList.add(new AzkarItem("25",
-                "اللهم إني أسألك من خير ما تعلم، وأعوذ بك من شر ما تعلم.",
-                false));
-
-        azkarList.add(new AzkarItem("26",
-                "اللهم إني أسألك خير هذا اليوم وخير ما بعده، وأعوذ بك من شر هذا اليوم وشر ما بعده.",
-                false));
-
-        azkarList.add(new AzkarItem("27",
-                "اللهم إني أسألك العفو والعافية في الدنيا والآخرة.",
-                false));
-
-        azkarList.add(new AzkarItem("28",
-                "اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والجبن والبخل، وضلع الدين وغلبة الرجال.",
-                false));
-
-        azkarList.add(new AzkarItem("29",
-                "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
-                false));
-
-        azkarList.add(new AzkarItem("30",
-                "اللهم إني أسألك رحمة من عندك تهدي بها قلبي وتجمع بها شتاتي وتلم بها شعثي وترد بها ألفتي وتلهمني رشدي وتعينني على ذكرك وشكرك وحسن عبادتك.",
-                false));
-
-        // -----------------------------
-        // أذكار المساء (30)
-        // -----------------------------
-        azkarList.add(new AzkarItem("أذكار المساء", "", true));
-
-        azkarList.add(new AzkarItem("1",
-                "أمسينا وأمس الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
-                false));
-
-        azkarList.add(new AzkarItem("2",
-                "اللهم بك أمسينا وبك أصبحنا، وبك نحيا وبك نموت وإليك المصير.",
-                false));
-
-        azkarList.add(new AzkarItem("3",
-                "رضيت بالله رباً وبالإسلام ديناً وبمحمد ﷺ نبياً.",
-                false));
-
-        azkarList.add(new AzkarItem("4",
-                "أستغفر الله الذي لا إله إلا هو الحي القيوم وأتوب إليه.",
-                false));
-
-        azkarList.add(new AzkarItem("5",
-                "اللهم إني أمسيت أشهدك وأشهد حملة عرشك وملائكتك وجميع خلقك أنك أنت الله لا إله إلا أنت وحدك لا شريك لك وأن محمدًا عبدك ورسولك.",
-                false));
-
-        azkarList.add(new AzkarItem("6",
-                "اللهم إني أسألك علماً نافعاً، ورزقاً طيباً، وعملاً متقبلاً.",
-                false));
-
-        azkarList.add(new AzkarItem("7",
-                "اللهم إني أعوذ بك من الكسل والهرم، ومن عذاب القبر، ومن فتنة المحيا والممات، ومن شر فتنة المسيح الدجال.",
-                false));
-
-        azkarList.add(new AzkarItem("8",
-                "اللهم إني أعوذ بك من شر ما عملت ومن شر ما لم أعمل.",
-                false));
-
-        azkarList.add(new AzkarItem("9",
-                "بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم.",
-                false));
-
-        azkarList.add(new AzkarItem("10",
-                "اللهم إني أعوذ بك من الجبن والبخل، وأعوذ بك من أن أُردّ إلى أرذل العمر، وأعوذ بك من فتنة الدنيا وعذاب القبر.",
-                false));
-
-        azkarList.add(new AzkarItem("11",
-                "اللهم إني أعوذ بك من عذاب جهنم ومن عذاب القبر ومن فتنة المحيا والممات ومن شر فتنة المسيح الدجال.",
-                false));
-
-        azkarList.add(new AzkarItem("12",
-                "أعوذ بكلمات الله التامات من شر ما خلق.",
-                false));
-
-        azkarList.add(new AzkarItem("13",
-                "اللهم إني أمسيت في نعمة منك، ورضا من عندك، وعافية منك، وأسألك من فضلك العظيم.",
-                false));
-
-        azkarList.add(new AzkarItem("14",
-                "اللهم إني أمسيت أشكو إليك ضعف قوتي، وقلة حيلتي، وهواني على الناس.",
-                false));
-
-        azkarList.add(new AzkarItem("15",
-                "اللهم إني أعوذ بك من شر ما أجد وأحاذر، ومن شر كل دابة أنت آخذ بناصيتها.",
-                false));
-
-        azkarList.add(new AzkarItem("16",
-                "اللهم إني أسألك خير هذه الليلة، فتحها ونصرها ونورها وبركتها وهدايتها، وأعوذ بك من شر ما فيها وشر ما بعدها.",
-                false));
-
-        azkarList.add(new AzkarItem("17",
-                "اللهم إني أسألك الهدى والتقى والعفاف والغنى.",
-                false));
-
-        azkarList.add(new AzkarItem("18",
-                "اللهم إني أسألك حبك وحب من يحبك وحب عمل يقربني إلى حبك.",
-                false));
-
-        azkarList.add(new AzkarItem("19",
-                "اللهم اجعلني من التوابين واجعلني من المتطهرين.",
-                false));
-
-        azkarList.add(new AzkarItem("20",
-                "اللهم إني أعوذ بك من شر نفسي ومن شر كل دابة أنت آخذ بناصيتها.",
-                false));
-
-        azkarList.add(new AzkarItem("21",
-                "سبحان الله وبحمده عدد خلقه ورضا نفسه وزنة عرشه ومداد كلماته.",
-                false));
-
-        azkarList.add(new AzkarItem("22",
-                "اللهم صل وسلم على نبينا محمد وعلى آله وصحبه وسلم.",
-                false));
-
-        azkarList.add(new AzkarItem("23",
-                "أعوذ بكلمات الله التامة من غضبه وعقابه ومن شر عباده ومن همزات الشياطين وأن يحضرون.",
-                false));
-
-        azkarList.add(new AzkarItem("24",
-                "اللهم إني أسألك عيشة طيبة، وميتة سوية، ومرداً غير مخزٍ ولا فاضح.",
-                false));
-
-        azkarList.add(new AzkarItem("25",
-                "اللهم إني أسألك من خير ما تعلم، وأعوذ بك من شر ما تعلم.",
-                false));
-
-        azkarList.add(new AzkarItem("26",
-                "اللهم إني أسألك خير هذه الليلة وخير ما بعدها، وأعوذ بك من شر هذه الليلة وشر ما بعدها.",
-                false));
-
-        azkarList.add(new AzkarItem("27",
-                "اللهم إني أسألك العفو والعافية في الدنيا والآخرة.",
-                false));
-
-        azkarList.add(new AzkarItem("28",
-                "اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والجبن والبخل، وضلع الدين وغلبة الرجال.",
-                false));
-
-        azkarList.add(new AzkarItem("29",
-                "أمسينا وأمس الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.",
-                false));
-
-        azkarList.add(new AzkarItem("30",
-                "اللهم إني أسألك رحمة من عندك تهدي بها قلبي وتجمع بها شتاتي وتلم بها شعثي وترد بها ألفتي وتلهمني رشدي وتعينني على ذكرك وشكرك وحسن عبادتك.",
-                false));
+        // 30 ذكر مسائي
+        azkarList.add(new AzkarItem("أذكار المساء 1", "اللّهُ لا إِلَهَ إِلاّ هُوَ الْحَيُّ الْقَيُّومُ ... (3 مرات)"));
+        azkarList.add(new AzkarItem("أذكار المساء 2", "أَمْسَيْنا وَأَمْسَتِ المُلكُ لِلَّهِ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 3", "اللّهُمَّ بِكَ أَمْسَيْنا ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 4", "أَمْسَتْ أُمُورِي كُلُّهَا ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 5", "سُبْحانَ اللهِ وَبِحَمْدِهِ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 6", "اللَّهُمَّ أَنْتَ رَبِّي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 7", "اللَّهُمَّ إِنِّي أَسْأَلُكَ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 8", "اللَّهُمَّ إنِّي أَسْأَلُكَ العَفْوَ وَالعافِيَةَ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 9", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 10", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 11", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 12", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الهُدَى ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 13", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الرِّضَا ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 14", "اللَّهُمَّ إِنِّي أَسْأَلُكَ نَعِيمَ الدَّارِ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 15", "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 16", "اللَّهُمَّ اجْعَلْنِي مِنَ الَّذِينَ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 17", "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 18", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ فِتْنَةِ الْمَحْيَا ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 19", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ القَبْر ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 20", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ سَمْعِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 21", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ بَصَرِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 22", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ لِسَانِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 23", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ قَلْبِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 24", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ عَمَلِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 25", "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا أَعْلَمُ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 26", "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنْ تُبْعِدَ عَنِّي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 27", "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنْ تُسَلِّمَ لِي ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 28", "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدِّينِ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 29", "اللَّهُمَّ إِنِّي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ ..."));
+        azkarList.add(new AzkarItem("أذكار المساء 30", "اللَّهُمَّ أَمْسَيْتُ أُشْهِدُكَ ..."));
     }
 }
