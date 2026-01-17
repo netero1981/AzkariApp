@@ -1,38 +1,26 @@
 
-package com.azkari;
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_azkar">
 
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="أذكار الصباح والمساء"
+        android:textSize="22sp"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"/>
 
-import java.util.ArrayList;
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginTop="20dp"/>
 
-public class AzkarActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
-    AzkarAdapter adapter;
-    ArrayList<String> azkarList;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_azkar);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        azkarList = new ArrayList<>();
-        loadAzkar();
-
-        adapter = new AzkarAdapter(azkarList);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void loadAzkar() {
-        // مثال: أذكار قصيرة (سأضع لك 60 ذكر لاحقًا)
-        azkarList.add("أَصْـبَـحْنا وَأَصْـبَـحَ المُلْـكُ لِلّـهِ ...");
-        azkarList.add("اللّهُـمَّ أَنْتَ رَبّـي لا إلهَ إلا أَنتَ ...");
-        // ...
-    }
-}
+</RelativeLayout>
