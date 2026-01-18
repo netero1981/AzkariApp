@@ -18,19 +18,19 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'gradle'
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build APK and list output
-        run: |
-          ./gradlew assembleDebug
-          echo "=== APK Files ==="
-          find . -type f -name "*.apk" -print
+      - name: Build with Gradle
+        # أضفنا سطر لتنظيف المشروع قبل البناء لضمان إنشاء ملفات جديدة
+        run: ./gradlew clean assembleDebug --stacktrace
 
-      - name: Upload APK artifacts
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: AzkariApp-APK
-          path: |
-            **/*.apk
+          name: AzkariApp-Debug
+          # المسار الصحيح بناءً على ملفاتك في الصورة
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
