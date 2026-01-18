@@ -18,19 +18,22 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'gradle' # إضافة الكاش لتسريع العمليات القادمة
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build APK and list output
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace # أضفنا stacktrace لمعرفة سبب أي خطأ
+
+      - name: Verify APK existence
         run: |
-          ./gradlew assembleDebug
-          echo "=== APK List ==="
-          find . -type f -name "*.apk" -print
+          echo "Checking for APK files..."
+          ls -R app/build/outputs/apk/ # التأكد من المسار التقليدي لاندرويد
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
           name: AzkariApp-APK
-          path: |
-            **/*.apk
+          path: app/build/outputs/apk/debug/*.apk # تحديد المسار المباشر بدلاً من البحث العام
+          if-no-files-found: error # سيجعل الـ Action يفشل بوضوح إذا لم يجد الملف
