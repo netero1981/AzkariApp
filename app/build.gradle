@@ -1,7 +1,7 @@
 
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android' // تأكد من استخدام هذا المعرف للـ Kotlin
 }
 
 android {
@@ -25,7 +25,7 @@ android {
         }
     }
 
-    // هذا الجزء هو ما كان ينقصك ليتوافق مع GitHub Actions
+    // ضروري جداً لنجاح البناء على سيرفرات GitHub
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
